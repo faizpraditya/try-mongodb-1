@@ -1,0 +1,894 @@
+mongodb
+nosql
+document
+berbentuk json
+rdbms (sql), table, mongo db (nosql), collection.
+ga perlu ngedefine table (maksudnya ngedefine trs isinya bakal apa, langung diinsert)
+begitu udah ngedefine collection, bisa ngisi apa aja
+2009. mendukung semua bahasa pemrograman
+bahasa utamanya menggunakan javascript
+design daoat dengan mudah diubah, ga perlu didown time.
+sql join, mongo embedded document
+
+json, max 16mb perdocument
+embedded max 100 nested/level
+
+sudo systemctl start mongod
+sudo systemctl status mongod
+sudo systemctl restart mongod
+sudo systemctl daemon-reload
+
+mongo -u jack -p
+
+> use db_enigma
+switched to db db_enigma
+> db
+db_enigma
+> db.dropDatabase()
+{ "ok" : 1 }
+> db
+db_enigma
+> use db_enigma
+switched to db db_enigma
+> db.version()
+5.0.5
+> db.stats()
+{
+	"db" : "db_enigma",
+	"collections" : 0,
+	"views" : 0,
+	"objects" : 0,
+	"avgObjSize" : 0,
+	"dataSize" : 0,
+	"storageSize" : 0,
+	"totalSize" : 0,
+	"indexes" : 0,
+	"indexSize" : 0,
+	"scaleFactor" : 1,
+	"fileSize" : 0,
+	"fsUsedSize" : 0,
+	"fsTotalSize" : 0,
+	"ok" : 1
+}
+> db.hostInfo()
+
+> db.createCollection("students")
+{ "ok" : 1 }
+> db.createCollection("lecture")
+{ "ok" : 1 }
+> db.getCollectionNames()
+[ "lecture", "students" ]
+> db.getcollectionnames()
+uncaught exception: TypeError: db.getcollectionnames is not a function :
+@(shell):1:1
+> db.getCollectionInfos()
+[
+	{
+		"name" : "lecture",
+		"type" : "collection",
+		"options" : {
+			
+		},
+		"info" : {
+			"readOnly" : false,
+			"uuid" : UUID("49e90ac0-f6db-42a1-a9e7-161d15df0f6e")
+		},
+		"idIndex" : {
+			"v" : 2,
+			"key" : {
+				"_id" : 1
+			},
+			"name" : "_id_"
+		}
+	},
+	{
+		"name" : "students",
+		"type" : "collection",
+		"options" : {
+			
+		},
+		"info" : {
+			"readOnly" : false,
+			"uuid" : UUID("b5135db0-bd9f-421a-8b86-2ae63b71bec4")
+		},
+		"idIndex" : {
+			"v" : 2,
+			"key" : {
+				"_id" : 1
+			},
+			"name" : "_id_"
+		}
+	}
+]
+
+insert
+insert one
+insert many
+db.students.insertOne()
+> db.students.insertOne({
+...     name: "Faiz",
+...     gender: "M",
+...     age: 23,
+...     joinDate: new Date("1998-02-03"),
+...     idCard: "111",
+...     senior: true
+... })
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("61d3cdcf7b18dbbcd25e1d2b")
+}
+> 
+
+// Nama, 
+> db.Students.insertOne({
+...     name: "Faiz",
+...     gender: "M",
+...     age: 23,
+...     joinDate: new Date("1998-02-03"),
+...     idCard: "111",
+...     senior: true
+... })
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("61d3cdcf7b18dbbcd25e1d2b")
+}
+> 
+
+> db.Students.insertOne({     name: "Faiz",     gender: "M",     age: 23,     joinDate: new Date("1998-02-03"),     idCard: "111",     senior: true })
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("61d3cf1f7b18dbbcd25e1d2c")
+}
+> db.getCollectionInfos()
+[
+	{
+		"name" : "Students",
+		"type" : "collection",
+		"options" : {
+			
+		},
+		"info" : {
+			"readOnly" : false,
+			"uuid" : UUID("44ec54da-5ee8-4eb4-8720-a8b9c64a7a51")
+		},
+		"idIndex" : {
+			"v" : 2,
+			"key" : {
+				"_id" : 1
+			},
+			"name" : "_id_"
+		}
+	},
+	{
+		"name" : "lecture",
+		"type" : "collection",
+		"options" : {
+			
+		},
+		"info" : {
+			"readOnly" : false,
+			"uuid" : UUID("49e90ac0-f6db-42a1-a9e7-161d15df0f6e")
+		},
+		"idIndex" : {
+			"v" : 2,
+			"key" : {
+				"_id" : 1
+			},
+			"name" : "_id_"
+		}
+	},
+	{
+		"name" : "students",
+		"type" : "collection",
+		"options" : {
+			
+		},
+		"info" : {
+			"readOnly" : false,
+			"uuid" : UUID("b5135db0-bd9f-421a-8b86-2ae63b71bec4")
+		},
+		"idIndex" : {
+			"v" : 2,
+			"key" : {
+				"_id" : 1
+			},
+			"name" : "_id_"
+		}
+	}
+]
+> db.getCollectionNames()
+[ "Students", "lecture", "students" ]
+> db.students.find()
+{ "_id" : ObjectId("61d3cdcf7b18dbbcd25e1d2b"), "name" : "Faiz", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+> db.students.insertOne({
+...     _id: "S001",
+...     name: "Faizz",
+...     gender: "M",
+...     age: 23,
+...     joinDate: new Date("1998-02-03"),
+...     idCard: "111",
+...     senior: true
+... })
+{ "acknowledged" : true, "insertedId" : "S001" }
+> db.students.find()
+{ "_id" : ObjectId("61d3cdcf7b18dbbcd25e1d2b"), "name" : "Faiz", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : "S001", "name" : "Faizz", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+> db.students.insertOne({
+...     _id: "S002",
+...     name: "Faizz",
+...     Gender: "M",
+...     age: 23,
+...     joinDate: new Date("1998-02-03"),
+...     idCard: "111",
+...     senior: true
+... })
+{ "acknowledged" : true, "insertedId" : "S002" }
+> db.students.find()
+{ "_id" : ObjectId("61d3cdcf7b18dbbcd25e1d2b"), "name" : "Faiz", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : "S001", "name" : "Faizz", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : "S002", "name" : "Faizz", "Gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+> 
+
+_id ga bisa duplicate, harus beda
+
+db.students.insertMany()
+> db.students.insertMany(
+...     [
+...         {
+...             name: "praditya",
+...             gender: "M",
+...             age: 23,
+...             joinDate: new Date("1998-02-03"),
+...             idCard: "111",
+...             senior: true
+...         },
+...         {
+...             name: "cantona",
+...             gender: "M",
+...             age: 23,
+...             joinDate: new Date("1998-02-03"),
+...             idCard: "111",
+...             senior: true
+...         },
+...     ]
+... )
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		ObjectId("61d3d0aa7b18dbbcd25e1d2d"),
+		ObjectId("61d3d0aa7b18dbbcd25e1d2e")
+	]
+}
+> db.students.find()
+{ "_id" : ObjectId("61d3cdcf7b18dbbcd25e1d2b"), "name" : "Faiz", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : "S001", "name" : "Faizz", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : "S002", "name" : "Faizz", "Gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : ObjectId("61d3d0aa7b18dbbcd25e1d2d"), "name" : "praditya", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : ObjectId("61d3d0aa7b18dbbcd25e1d2e"), "name" : "cantona", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+
+
+> db.students.count()
+5
+> db.students.totalSize()
+73728
+> db.students.stats()
+
+> db.getCollectionNames()
+[ "Students", "lecture", "students" ]
+> db.Student.drop()
+false
+> db.Students.drop()
+true
+> db.getCollectionNames()
+[ "lecture", "students" ]
+> 
+
+> db.students.find()
+{ "_id" : ObjectId("61d3cdcf7b18dbbcd25e1d2b"), "name" : "Faiz", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : "S001", "name" : "Faizz", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : "S002", "name" : "Faizz", "Gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : ObjectId("61d3d0aa7b18dbbcd25e1d2d"), "name" : "praditya", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : ObjectId("61d3d0aa7b18dbbcd25e1d2e"), "name" : "cantona", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+> db.students.deleteOne({_id:"S001"})
+{ "acknowledged" : true, "deletedCount" : 1 }
+> db.students.find()
+{ "_id" : ObjectId("61d3cdcf7b18dbbcd25e1d2b"), "name" : "Faiz", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : "S002", "name" : "Faizz", "Gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : ObjectId("61d3d0aa7b18dbbcd25e1d2d"), "name" : "praditya", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : ObjectId("61d3d0aa7b18dbbcd25e1d2e"), "name" : "cantona", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+
+> db.students.updateOne({name:"Faizz"}, {$set: {name: "beckham"}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.students.find({name: "beckham"})
+{ "_id" : "S002", "name" : "beckham", "Gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+> db.students.updateOne({name: "david beckham"}, {$set: {name: "beckham"}}, {upsert:true})
+{
+	"acknowledged" : true,
+	"matchedCount" : 0,
+	"modifiedCount" : 0,
+	"upsertedId" : ObjectId("61d3d349f2eabd53f44b48f3")
+}
+> db.students.find()
+{ "_id" : ObjectId("61d3cdcf7b18dbbcd25e1d2b"), "name" : "Faiz", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : "S002", "name" : "beckham", "Gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : ObjectId("61d3d0aa7b18dbbcd25e1d2d"), "name" : "praditya", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : ObjectId("61d3d0aa7b18dbbcd25e1d2e"), "name" : "cantona", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : ObjectId("61d3d349f2eabd53f44b48f3"), "name" : "beckham" }
+> 
+
+materi lanjutan di screenshot
+ngurut, ga ngacak kayak postgres
+
+> db.students.find({name: "beckham"})
+{ "_id" : "S002", "name" : "beckham", "Gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : ObjectId("61d3d349f2eabd53f44b48f3"), "name" : "beckham" }
+> db.students.find({name: "beckhamz"})
+> db.students.findOne({name: "beckhamz"})
+null
+
+Comparison Operator | =, >, <, >=, <=, in, !=, not in
+MongoDB             | $eq, $gt, $lt, $gte, $lte, $in, $ne, $nin
+
+db.collection.find({ flied: {$operator: "value" } })
+
+Mencari age > 20
+db.students.find({
+    age: {
+        $gt: 20
+    }
+})
+
+> db.student.find({
+...     age: {
+...         $gt: 20
+...     }
+... })
+> db.students.find({     age: {         $gt: 20     } })
+{ "_id" : ObjectId("61d3cdcf7b18dbbcd25e1d2b"), "name" : "Faiz", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : "S002", "name" : "beckham", "Gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : ObjectId("61d3d0aa7b18dbbcd25e1d2d"), "name" : "praditya", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : ObjectId("61d3d0aa7b18dbbcd25e1d2e"), "name" : "cantona", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+> db.students.finddb.students.find({
+...     age: {
+...         $gt: 20
+...     }
+... },{
+...     name:1,
+...     gender:1,
+...     _id:0,
+... })
+> db.students.find({
+...     age: {
+...         $gt: 20
+...     }
+... },{
+...     name:1,
+...     gender:1,
+...     _id:0,
+... })
+{ "name" : "Faiz", "gender" : "M" }
+{ "name" : "beckham" }
+{ "name" : "praditya", "gender" : "M" }
+{ "name" : "cantona", "gender" : "M" }
+> db.students.find({
+...     joinDate: {
+...         "$lte" : ISODate("2015-06-17T10:03:46Z")
+...     }
+... })
+{ "_id" : ObjectId("61d3cdcf7b18dbbcd25e1d2b"), "name" : "Faiz", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : "S002", "name" : "beckham", "Gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : ObjectId("61d3d0aa7b18dbbcd25e1d2d"), "name" : "praditya", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : ObjectId("61d3d0aa7b18dbbcd25e1d2e"), "name" : "cantona", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+> db.students.find({
+...     joinDate: {
+...         $eq : ISODate("1998-02-03")
+...     }
+... })
+{ "_id" : ObjectId("61d3cdcf7b18dbbcd25e1d2b"), "name" : "Faiz", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : "S002", "name" : "beckham", "Gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : ObjectId("61d3d0aa7b18dbbcd25e1d2d"), "name" : "praditya", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : ObjectId("61d3d0aa7b18dbbcd25e1d2e"), "name" : "cantona", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+> db.students.find({
+...     joinDate: {
+...         $gte : ISODate("1998-02-03"),
+...         $lte : ISODate("1998-02-05")
+...     }
+... })
+{ "_id" : ObjectId("61d3cdcf7b18dbbcd25e1d2b"), "name" : "Faiz", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : "S002", "name" : "beckham", "Gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : ObjectId("61d3d0aa7b18dbbcd25e1d2d"), "name" : "praditya", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+{ "_id" : ObjectId("61d3d0aa7b18dbbcd25e1d2e"), "name" : "cantona", "gender" : "M", "age" : 23, "joinDate" : ISODate("1998-02-03T00:00:00Z"), "idCard" : "111", "senior" : true }
+> 
+
+> db.products.insertMany(
+...     [
+...         {
+...             _id: 1,
+...             name: "Macbook Pro 2022",
+...             price: new NumberLong(22000000),
+...             category: "laptop"
+...         },
+...         {
+...             _id: 2,
+...             name: "Lenovo Think Pad i7",
+...             price: new NumberLong(20000000),
+...             category: "laptop"
+...         },
+...         {
+...             _id: 3,
+...             name: "Iphone 13 Pro Max",
+...             price: new NumberLong(21000000),
+...             category: "handphone"
+...         },
+...         {
+...             _id: 4,
+...             name: "Ayam Bakar Madu",
+...             price: new NumberLong(25000),
+...             category: "food"
+...         },
+...         {
+...             _id: 5,
+...             name: "Ice Dolce Latte",
+...             price: new NumberLong(13000),
+...             category: "drink"
+...         }
+...     ]
+... ) 
+{ "acknowledged" : true, "insertedIds" : [ 1, 2, 3, 4, 5 ] }
+> db.getCollectionNames()
+[ "lecture", "products", "students" ]
+> db.products.find()
+{ "_id" : 1, "name" : "Macbook Pro 2022", "price" : NumberLong(22000000), "category" : "laptop" }
+{ "_id" : 2, "name" : "Lenovo Think Pad i7", "price" : NumberLong(20000000), "category" : "laptop" }
+{ "_id" : 3, "name" : "Iphone 13 Pro Max", "price" : NumberLong(21000000), "category" : "handphone" }
+{ "_id" : 4, "name" : "Ayam Bakar Madu", "price" : NumberLong(25000), "category" : "food" }
+{ "_id" : 5, "name" : "Ice Dolce Latte", "price" : NumberLong(13000), "category" : "drink" }
+
+
+> db.prodcuts.find({
+...     category: {
+...         $in: ["food", "drink"]
+...     },
+...     price: {
+...         $gt :20000
+...     }
+... })
+> db.prodcuts.find({
+...     category: {
+...         $in: ["food", "drink"]
+...     },
+...     price: {
+...         $gt :10000
+...     }
+... })
+> db.products.find({
+...     category: {
+...         $in: ["food", "drink"]
+...     },
+...     price: {
+...         $gt: 10000
+...     }
+... })
+{ "_id" : 4, "name" : "Ayam Bakar Madu", "price" : NumberLong(25000), "category" : "food" }
+{ "_id" : 5, "name" : "Ice Dolce Latte", "price" : NumberLong(13000), "category" : "drink" }
+> db.getCollectionNames()
+[ "lecture", "products", "students" ]
+> db.products.find({     category: {         $in: ["food", "drink"]     },     price: {         $gt: 10000     } })
+{ "_id" : 4, "name" : "Ayam Bakar Madu", "price" : NumberLong(25000), "category" : "food" }
+{ "_id" : 5, "name" : "Ice Dolce Latte", "price" : NumberLong(13000), "category" : "drink" }
+> db.products.find({
+...     $and: [
+...         {
+...             category: {
+...                 $in: ["food", "drink"]
+...             },
+...             price: {
+...                 $gt: 10000
+...             }
+...         }
+...     ]
+... })
+{ "_id" : 4, "name" : "Ayam Bakar Madu", "price" : NumberLong(25000), "category" : "food" }
+{ "_id" : 5, "name" : "Ice Dolce Latte", "price" : NumberLong(13000), "category" : "drink" }
+> db.products.find([
+...     $expr: {
+...         $gt: ["$price", 23000000]
+...     }
+... ])
+uncaught exception: SyntaxError: missing ] after element list :
+@(shell):2:9
+> db.products.find({
+...     $expr: {
+...         $gt: ["$price", 23000000]
+...     }
+... })
+> db.products.find({
+...     $expr: {
+...         $gt: ["$price", 23000000]
+...     }
+... })
+> db.products.find({
+...     $jsonSchema: {
+...         required: ["name", "category"]
+...     }
+... })
+{ "_id" : 1, "name" : "Macbook Pro 2022", "price" : NumberLong(22000000), "category" : "laptop" }
+{ "_id" : 2, "name" : "Lenovo Think Pad i7", "price" : NumberLong(20000000), "category" : "laptop" }
+{ "_id" : 3, "name" : "Iphone 13 Pro Max", "price" : NumberLong(21000000), "category" : "handphone" }
+{ "_id" : 4, "name" : "Ayam Bakar Madu", "price" : NumberLong(25000), "category" : "food" }
+{ "_id" : 5, "name" : "Ice Dolce Latte", "price" : NumberLong(13000), "category" : "drink" }
+> db.products.find({
+...     $jsonSchema: {
+...         required: ["name"],
+...         properties:{
+...             price:{
+...                 bsonType:"long"
+...             }
+...         }
+...     }
+... })
+{ "_id" : 1, "name" : "Macbook Pro 2022", "price" : NumberLong(22000000), "category" : "laptop" }
+{ "_id" : 2, "name" : "Lenovo Think Pad i7", "price" : NumberLong(20000000), "category" : "laptop" }
+{ "_id" : 3, "name" : "Iphone 13 Pro Max", "price" : NumberLong(21000000), "category" : "handphone" }
+{ "_id" : 4, "name" : "Ayam Bakar Madu", "price" : NumberLong(25000), "category" : "food" }
+{ "_id" : 5, "name" : "Ice Dolce Latte", "price" : NumberLong(13000), "category" : "drink" }
+> db.products.find({
+...     price: {
+...         $mod: [5, 0]
+...     }
+... })
+{ "_id" : 1, "name" : "Macbook Pro 2022", "price" : NumberLong(22000000), "category" : "laptop" }
+{ "_id" : 2, "name" : "Lenovo Think Pad i7", "price" : NumberLong(20000000), "category" : "laptop" }
+{ "_id" : 3, "name" : "Iphone 13 Pro Max", "price" : NumberLong(21000000), "category" : "handphone" }
+{ "_id" : 4, "name" : "Ayam Bakar Madu", "price" : NumberLong(25000), "category" : "food" }
+{ "_id" : 5, "name" : "Ice Dolce Latte", "price" : NumberLong(13000), "category" : "drink" }
+> db.products.insertMany(
+...     [
+...         {
+...             _id: 6,
+...             name: "Ayam Bakar Kecap",
+...             price: new NumberLong(23000),
+...             category: "food"
+...         },
+...         {
+...             _id: 7,
+...             name: "Ayam Bakar Taliwang",
+...             price: new NumberLong(30000),
+...             category: "food"
+...         }
+...     ]
+... )
+{ "acknowledged" : true, "insertedIds" : [ 6, 7 ] }
+> db.products.find().prety()
+uncaught exception: TypeError: db.products.find(...).prety is not a function :
+@(shell):1:1
+> db.products.find().pretty()
+{
+	"_id" : 1,
+	"name" : "Macbook Pro 2022",
+	"price" : NumberLong(22000000),
+	"category" : "laptop"
+}
+{
+	"_id" : 2,
+	"name" : "Lenovo Think Pad i7",
+	"price" : NumberLong(20000000),
+	"category" : "laptop"
+}
+{
+	"_id" : 3,
+	"name" : "Iphone 13 Pro Max",
+	"price" : NumberLong(21000000),
+	"category" : "handphone"
+}
+{
+	"_id" : 4,
+	"name" : "Ayam Bakar Madu",
+	"price" : NumberLong(25000),
+	"category" : "food"
+}
+{
+	"_id" : 5,
+	"name" : "Ice Dolce Latte",
+	"price" : NumberLong(13000),
+	"category" : "drink"
+}
+{
+	"_id" : 6,
+	"name" : "Ayam Bakar Kecap",
+	"price" : NumberLong(23000),
+	"category" : "food"
+}
+{
+	"_id" : 7,
+	"name" : "Ayam Bakar Taliwang",
+	"price" : NumberLong(30000),
+	"category" : "food"
+}
+> db.products.find({
+...     name:{
+...         $regex: /Ayam/,
+...         $options:"i"
+...     }
+... })
+{ "_id" : 4, "name" : "Ayam Bakar Madu", "price" : NumberLong(25000), "category" : "food" }
+{ "_id" : 6, "name" : "Ayam Bakar Kecap", "price" : NumberLong(23000), "category" : "food" }
+{ "_id" : 7, "name" : "Ayam Bakar Taliwang", "price" : NumberLong(30000), "category" : "food" }
+> db.products.find({     name:{         $regex: /ayam/,         $options:"i"     } })
+{ "_id" : 4, "name" : "Ayam Bakar Madu", "price" : NumberLong(25000), "category" : "food" }
+{ "_id" : 6, "name" : "Ayam Bakar Kecap", "price" : NumberLong(23000), "category" : "food" }
+{ "_id" : 7, "name" : "Ayam Bakar Taliwang", "price" : NumberLong(30000), "category" : "food" }
+> db.products.find({
+...     name:{
+...         $regex: /^A/
+...     }
+... })
+{ "_id" : 4, "name" : "Ayam Bakar Madu", "price" : NumberLong(25000), "category" : "food" }
+{ "_id" : 6, "name" : "Ayam Bakar Kecap", "price" : NumberLong(23000), "category" : "food" }
+{ "_id" : 7, "name" : "Ayam Bakar Taliwang", "price" : NumberLong(30000), "category" : "food" }
+> db.products.find({
+...     name:{
+...         $regex: /g^/
+...     }
+... })
+> db.products.find({
+...     name:{
+...         $regex: /g$/
+...     }
+... })
+{ "_id" : 7, "name" : "Ayam Bakar Taliwang", "price" : NumberLong(30000), "category" : "food" }
+> db.products.createIndex({
+...     name: "text"
+... })
+{
+	"numIndexesBefore" : 1,
+	"numIndexesAfter" : 2,
+	"createdCollectionAutomatically" : false,
+	"ok" : 1
+}
+> db.products.find({
+...     $text: {
+...         search: "ayam lenovo"
+...     }
+... })
+Error: error: {
+	"ok" : 0,
+	"errmsg" : "Missing expected field \"$search\"",
+	"code" : 4,
+	"codeName" : "NoSuchKey"
+}
+> db.products.find({
+...     $text: {
+...         $search: "ayam lenovo"
+...     }
+... })
+{ "_id" : 7, "name" : "Ayam Bakar Taliwang", "price" : NumberLong(30000), "category" : "food" }
+{ "_id" : 6, "name" : "Ayam Bakar Kecap", "price" : NumberLong(23000), "category" : "food" }
+{ "_id" : 4, "name" : "Ayam Bakar Madu", "price" : NumberLong(25000), "category" : "food" }
+{ "_id" : 2, "name" : "Lenovo Think Pad i7", "price" : NumberLong(20000000), "category" : "laptop" }
+> db.products.find({
+...     $text: {
+...         $search: '"ayam lenovo"'
+...     }
+... })
+> db.products.find({
+...     $text: {
+...         $search: '"bakar m"'
+...     }
+... })
+{ "_id" : 4, "name" : "Ayam Bakar Madu", "price" : NumberLong(25000), "category" : "food" }
+> db.products.find({
+...     $text: {
+...         $search: '"ay"'
+...     }
+... })
+> db.products.find({
+...     $where: function () {
+...         return this._id == 7
+...     }
+... })
+{ "_id" : 7, "name" : "Ayam Bakar Taliwang", "price" : NumberLong(30000), "category" : "food" }
+> db.products.find().pretty().limit(2)
+{
+	"_id" : 1,
+	"name" : "Macbook Pro 2022",
+	"price" : NumberLong(22000000),
+	"category" : "laptop"
+}
+{
+	"_id" : 2,
+	"name" : "Lenovo Think Pad i7",
+	"price" : NumberLong(20000000),
+	"category" : "laptop"
+}
+> > db.products.find().pretty().skip(2).limit(2)
+uncaught exception: SyntaxError: expected expression, got '>' :
+@(shell):1:0
+> db.products.find().pretty().skip(2).limit(2)
+{
+	"_id" : 3,
+	"name" : "Iphone 13 Pro Max",
+	"price" : NumberLong(21000000),
+	"category" : "handphone"
+}
+{
+	"_id" : 4,
+	"name" : "Ayam Bakar Madu",
+	"price" : NumberLong(25000),
+	"category" : "food"
+}
+> db.products.find().pretty().skip(2).limit(2).sort({
+...     name:1
+... })
+{
+	"_id" : 7,
+	"name" : "Ayam Bakar Taliwang",
+	"price" : NumberLong(30000),
+	"category" : "food"
+}
+{
+	"_id" : 5,
+	"name" : "Ice Dolce Latte",
+	"price" : NumberLong(13000),
+	"category" : "drink"
+}
+> db.products.find().pretty().skip(2).limit(2).sort({
+...     name:-1
+... })
+{
+	"_id" : 3,
+	"name" : "Iphone 13 Pro Max",
+	"price" : NumberLong(21000000),
+	"category" : "handphone"
+}
+{
+	"_id" : 5,
+	"name" : "Ice Dolce Latte",
+	"price" : NumberLong(13000),
+	"category" : "drink"
+}
+> db.products.find().sort({ name: 1 }).explain("executionStats")
+{
+	"explainVersion" : "1",
+	"queryPlanner" : {
+		"namespace" : "db_enigma.products",
+		"indexFilterSet" : false,
+		"parsedQuery" : {
+			
+		},
+		"maxIndexedOrSolutionsReached" : false,
+		"maxIndexedAndSolutionsReached" : false,
+		"maxScansToExplodeReached" : false,
+		"winningPlan" : {
+			"stage" : "SORT",
+			"sortPattern" : {
+				"name" : 1
+			},
+			"memLimit" : 104857600,
+			"type" : "simple",
+			"inputStage" : {
+				"stage" : "COLLSCAN",
+				"direction" : "forward"
+			}
+		},
+		"rejectedPlans" : [ ]
+	},
+	"executionStats" : {
+		"executionSuccess" : true,
+		"nReturned" : 7,
+		"executionTimeMillis" : 0,
+		"totalKeysExamined" : 0,
+		"totalDocsExamined" : 7,
+		"executionStages" : {
+			"stage" : "SORT",
+			"nReturned" : 7,
+			"executionTimeMillisEstimate" : 0,
+			"works" : 17,
+			"advanced" : 7,
+			"needTime" : 9,
+			"needYield" : 0,
+			"saveState" : 0,
+			"restoreState" : 0,
+			"isEOF" : 1,
+			"sortPattern" : {
+				"name" : 1
+			},
+			"memLimit" : 104857600,
+			"type" : "simple",
+			"totalDataSizeSorted" : 1021,
+			"usedDisk" : false,
+			"inputStage" : {
+				"stage" : "COLLSCAN",
+				"nReturned" : 7,
+				"executionTimeMillisEstimate" : 0,
+				"works" : 9,
+				"advanced" : 7,
+				"needTime" : 1,
+				"needYield" : 0,
+				"saveState" : 0,
+				"restoreState" : 0,
+				"isEOF" : 1,
+				"direction" : "forward",
+				"docsExamined" : 7
+			}
+		}
+	},
+	"command" : {
+		"find" : "products",
+		"filter" : {
+			
+		},
+		"sort" : {
+			"name" : 1
+		},
+		"$db" : "db_enigma"
+	},
+	"serverInfo" : {
+		"host" : "muhammad-faiz-praditya",
+		"port" : 27017,
+		"version" : "5.0.5",
+		"gitVersion" : "d65fd89df3fc039b5c55933c0f71d647a54510ae"
+	},
+	"serverParameters" : {
+		"internalQueryFacetBufferSizeBytes" : 104857600,
+		"internalQueryFacetMaxOutputDocSizeBytes" : 104857600,
+		"internalLookupStageIntermediateDocumentMaxSizeBytes" : 104857600,
+		"internalDocumentSourceGroupMaxMemoryBytes" : 104857600,
+		"internalQueryMaxBlockingSortMemoryUsageBytes" : 104857600,
+		"internalQueryProhibitBlockingMergeOnMongoS" : 0,
+		"internalQueryMaxAddToSetBytes" : 104857600,
+		"internalDocumentSourceSetWindowFieldsMaxMemoryBytes" : 104857600
+	},
+	"ok" : 1
+}
+> db.products.countDocuments({})
+7
+> db.products.distinct("category")
+[ "drink", "food", "handphone", "laptop" ]
+> db.products.aggregate([
+...     {
+...         $group: {
+...             _id: "$category",
+...             total: {
+...                 $sum: "$price"
+...             }
+...         }
+...     }
+... ])
+{ "_id" : "food", "total" : NumberLong(78000) }
+{ "_id" : "laptop", "total" : NumberLong(42000000) }
+{ "_id" : "drink", "total" : NumberLong(13000) }
+{ "_id" : "handphone", "total" : NumberLong(21000000) }
+> db.products.aggregate([
+...     {
+...         $group: {
+...             _id: "$category",
+...             total: {
+...                 $sum: 1
+...             }
+...         }
+...     }
+... ])
+{ "_id" : "food", "total" : 3 }
+{ "_id" : "laptop", "total" : 2 }
+{ "_id" : "drink", "total" : 1 }
+{ "_id" : "handphone", "total" : 1 }
+> db.products.aggregate([
+...     {
+...         $match: {
+...             category: "food"
+...         }
+...     },
+...     {
+...         $group: {
+...             _id: "$category",
+...             total: {
+...                 $sum: "$price"
+...             }
+...         }
+...     }
+... ])
+{ "_id" : "food", "total" : NumberLong(78000) }
+> 
+
+
